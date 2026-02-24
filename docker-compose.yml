@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  data_analysis:
+    build:
+      context: ./data_analysis
+    volumes:
+      - ./data:/app/data
+      - ./data_analysis/outputs:/app/outputs
+    command: python src/main.py
