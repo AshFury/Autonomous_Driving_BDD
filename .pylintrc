@@ -1,0 +1,18 @@
+[MASTER]
+ignore=venv,bdd,data
+
+extension-pkg-allow-list=cv2
+
+[MESSAGES CONTROL]
+disable=
+    missing-module-docstring,
+    missing-function-docstring,
+    too-many-locals,
+    too-many-statements,
+    too-few-public-methods,
+    duplicate-code,
+    invalid-name,
+    redefined-outer-name
+
+[FORMAT]
+max-line-length=100

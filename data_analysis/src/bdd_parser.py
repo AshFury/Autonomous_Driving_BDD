@@ -11,12 +11,11 @@ BDD_DETECTION_CLASSES = {
     "traffic sign",
 }
 
-from dataclasses import dataclass
-from typing import List
 import json
+from collections import Counter
+from dataclasses import dataclass
 from pathlib import Path
 from typing import List
-from collections import Counter
 
 
 @dataclass
@@ -24,6 +23,7 @@ class BoundingBox:
     """
     Represents a 2D bounding box in image coordinates.
     """
+
     x1: float
     y1: float
     x2: float
@@ -31,23 +31,25 @@ class BoundingBox:
 
     def width(self) -> float:
         return max(0.0, self.x2 - self.x1)
-    
+
     def height(self) -> float:
         return max(0.0, self.y2 - self.y1)
 
     def area(self) -> float:
         """Compute bounding box area."""
         return max(0.0, (self.x2 - self.x1)) * max(0.0, (self.y2 - self.y1))
-    
+
     def aspect_ratio(self) -> float:
         h = self.height()
         return self.width() / h if h > 0 else 0.0
+
 
 @dataclass
 class ObjectAnnotation:
     """
     Represents a single object annotation.
     """
+
     category: str
     bbox: BoundingBox
 
@@ -57,8 +59,10 @@ class ImageAnnotation:
     """
     Represents annotations for a single image.
     """
+
     image_name: str
     objects: List[ObjectAnnotation]
+
 
 class BDDParser:
     def __init__(self, labels_path: Path, images_path: Path):
@@ -111,6 +115,7 @@ class BDDParser:
             )
 
         return annotations
+
 
 def compute_basic_stats(annotations: List[ImageAnnotation]) -> None:
     total_images = len(annotations)

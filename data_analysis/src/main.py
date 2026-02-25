@@ -1,35 +1,34 @@
-from pathlib import Path
-from parser import BDDParser, compute_basic_stats
-from stats import (
-    extract_bbox_metrics, 
-    categorize_object_sizes, 
-    find_most_crowded_images, 
-    find_images_by_class,
-    compute_class_spatial_distribution,
-    plot_spatial_heatmaps,
-    compute_class_cooccurrence,
-    compute_per_class_size_distribution,
-)
-import numpy as np
-from visualization import (
-    plot_class_distribution,
-    plot_area_histogram,
-    plot_objects_per_image,
-    visualize_image_with_boxes,
-    plot_cooccurrence_matrix,
-)
 from collections import Counter
+from pathlib import Path
+
+import numpy as np
+
+from data_analysis.src.bdd_parser import BDDParser, compute_basic_stats
+from data_analysis.src.stats import (categorize_object_sizes,
+                                     compute_class_cooccurrence,
+                                     compute_class_spatial_distribution,
+                                     compute_per_class_size_distribution,
+                                     extract_bbox_metrics,
+                                     find_images_by_class,
+                                     find_most_crowded_images,
+                                     plot_spatial_heatmaps)
+from data_analysis.src.visualization import (plot_area_histogram,
+                                             plot_class_distribution,
+                                             plot_cooccurrence_matrix,
+                                             plot_objects_per_image,
+                                             visualize_image_with_boxes)
 
 
 def main():
     # Get project root dynamically
-    project_root = Path(__file__).resolve().parents[2]
-
-    data_analysis_root = Path(__file__).resolve().parents[1]
+    project_root = Path("/app")
+    data_analysis_root = Path("/app")
     outputs_dir = data_analysis_root / "outputs"
-    outputs_dir.mkdir(parents=True, exist_ok=True)    
+    outputs_dir.mkdir(parents=True, exist_ok=True)
 
-    labels_path = project_root / "data/raw/bdd100k/labels/bdd100k_labels_images_train.json"
+    labels_path = (
+        project_root / "data/raw/bdd100k/labels/bdd100k_labels_images_train.json"
+    )
     images_path = project_root / "data/raw/bdd100k/images/100k/train"
 
     if not labels_path.exists():
@@ -88,27 +87,31 @@ def main():
     plot_area_histogram(metrics["areas"], outputs_dir)
     plot_objects_per_image(metrics["objects_per_image"], outputs_dir)
 
-    val_labels_path = project_root / "data/raw/bdd100k/labels/bdd100k_labels_images_val.json"
+    val_labels_path = (
+        project_root / "data/raw/bdd100k/labels/bdd100k_labels_images_val.json"
+    )
     val_images_path = project_root / "data/raw/bdd100k/images/100k/val"
 
     val_parser = BDDParser(val_labels_path, val_images_path)
     val_annotations = val_parser.load()
 
     print("\n==== Validation Dataset Statistics ====")
-    compute_basic_stats(val_annotations)    
+    compute_basic_stats(val_annotations)
 
     val_metrics = extract_bbox_metrics(val_annotations)
     val_size_stats = categorize_object_sizes(val_metrics["areas"])
 
     print("\n==== Validation Object Size Distribution ====")
     print(f"Small: {val_size_stats['small']} ({val_size_stats['small_pct']*100:.2f}%)")
-    print(f"Medium: {val_size_stats['medium']} ({val_size_stats['medium_pct']*100:.2f}%)")
+    print(
+        f"Medium: {val_size_stats['medium']} ({val_size_stats['medium_pct']*100:.2f}%)"
+    )
     print(f"Large: {val_size_stats['large']} ({val_size_stats['large_pct']*100:.2f}%)")
 
     print("\n==== Validation Objects Per Image Stats ====")
     print(f"Mean: {val_metrics['objects_per_image'].mean():.2f}")
     print(f"Median: {np.median(val_metrics['objects_per_image']):.2f}")
-    print(f"Max: {val_metrics['objects_per_image'].max()}")    
+    print(f"Max: {val_metrics['objects_per_image'].max()}")
 
     print("\n==== Top 20 Most Crowded Training Images ====")
     top_crowded = find_most_crowded_images(annotations, top_k=20)
@@ -128,16 +131,16 @@ def main():
     visualize_image_with_boxes(
         image_path,
         most_crowded_annotation,
-        save_path=outputs_dir / "most_crowded_image.png"
-    )         
-    
+        save_path=outputs_dir / "most_crowded_image.png",
+    )
+
     train_images = find_images_by_class(annotations, "train")
 
     print("\n==== Images Containing 'train' Class ====")
     print(f"Total images containing train: {len(train_images)}")
 
     for name, count in train_images[:5]:
-        print(f"{name} → {count} trains")  
+        print(f"{name} → {count} trains")
 
     train_image_name = train_images[0][0]
 
@@ -148,10 +151,8 @@ def main():
     image_path = images_path / train_image_name
 
     visualize_image_with_boxes(
-        image_path,
-        train_image_annotation,
-        save_path=outputs_dir / "train_example.png"
-    )     
+        image_path, train_image_annotation, save_path=outputs_dir / "train_example.png"
+    )
 
     VALID_CLASSES = [
         "car",
@@ -165,7 +166,6 @@ def main():
         "traffic sign",
         "train",
     ]
-    
 
     print("\n==== Computing Spatial Distribution ====")
 
@@ -196,6 +196,7 @@ def main():
     )
 
     print("Class co-occurrence matrix saved.")
+
 
 if __name__ == "__main__":
     main()

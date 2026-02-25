@@ -1,7 +1,8 @@
-import matplotlib.pyplot as plt
 from pathlib import Path
-from PIL import Image
+
+import matplotlib.pyplot as plt
 import seaborn as sns
+from PIL import Image
 
 
 def plot_class_distribution(class_counter, output_dir: Path) -> None:
@@ -68,6 +69,7 @@ def plot_objects_per_image(objects_per_image, output_dir: Path) -> None:
     plt.savefig(save_path)
     plt.close()
 
+
 def visualize_image_with_boxes(
     image_path: Path,
     annotation,
@@ -117,6 +119,7 @@ def visualize_image_with_boxes(
     plt.tight_layout()
     plt.savefig(save_path, bbox_inches="tight")
     plt.close()
+
 
 def plot_cooccurrence_matrix(
     matrix,

@@ -1,10 +1,11 @@
-import numpy as np
 import os
 from collections import defaultdict
-from typing import Dict, List, Tuple
-import matplotlib.pyplot as plt
-from PIL import Image
 from pathlib import Path
+from typing import Dict, List, Tuple
+
+import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image
 
 
 def extract_bbox_metrics(annotations):
@@ -31,6 +32,7 @@ def extract_bbox_metrics(annotations):
         "per_class_area": per_class_area,
     }
 
+
 def categorize_object_sizes(areas):
     small = np.sum(areas < 32**2)
     medium = np.sum((areas >= 32**2) & (areas < 96**2))
@@ -47,15 +49,14 @@ def categorize_object_sizes(areas):
         "large_pct": large / total,
     }
 
+
 def find_most_crowded_images(annotations, top_k=20):
-    image_object_counts = [
-        (img.image_name, len(img.objects))
-        for img in annotations
-    ]
+    image_object_counts = [(img.image_name, len(img.objects)) for img in annotations]
 
     image_object_counts.sort(key=lambda x: x[1], reverse=True)
 
     return image_object_counts[:top_k]
+
 
 def find_images_by_class(annotations, target_class):
     images = []
@@ -66,6 +67,7 @@ def find_images_by_class(annotations, target_class):
             images.append((img.image_name, count))
 
     return images
+
 
 def compute_class_spatial_distribution(
     annotations,
@@ -119,6 +121,7 @@ def compute_class_spatial_distribution(
 
     return class_centers
 
+
 def plot_spatial_heatmaps(
     class_centers: Dict[str, List[Tuple[float, float]]],
     output_dir: str,
@@ -165,6 +168,7 @@ def plot_spatial_heatmaps(
         plt.savefig(save_path)
         plt.close()
 
+
 def compute_class_cooccurrence(
     annotations,
     valid_classes: List[str],
@@ -194,9 +198,7 @@ def compute_class_cooccurrence(
 
     for img in annotations:
         present_classes = set(
-            obj.category
-            for obj in img.objects
-            if obj.category in valid_classes
+            obj.category for obj in img.objects if obj.category in valid_classes
         )
 
         for cls1 in present_classes:
@@ -206,6 +208,7 @@ def compute_class_cooccurrence(
                 co_matrix[i, j] += 1
 
     return co_matrix, valid_classes
+
 
 def compute_per_class_size_distribution(
     annotations,
