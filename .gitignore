@@ -4,3 +4,6 @@ bdd/
 __pycache__/
 *.pyc
 .env
+# Model checkpoints
+model/training/checkpoints/
+*.pth
