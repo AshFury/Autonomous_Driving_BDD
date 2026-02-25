@@ -162,13 +162,10 @@ pip install pre-commit
 pre-commit install
 ```
 
-
 To manually run checks on all files:
 ```
 pre-commit run --all-files
 ```
-
-This ensures consistent formatting and linting before commits.
 
 ---
 
@@ -187,12 +184,3 @@ The evaluation report connects:
 - Data-driven improvement suggestions
 
 ---
-
-# Design Philosophy
-
-This project emphasizes:
-
-- Structured engineering
-- Reproducibility (Docker support)
-- Data-driven modeling decisions
-- Clear documentation

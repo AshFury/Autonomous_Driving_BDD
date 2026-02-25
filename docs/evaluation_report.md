@@ -1,6 +1,4 @@
 # Evaluation & Visualization Report  
-**Applied Computer Vision Assignment – Object Detection on BDD100K**
-
 ---
 
 # 1. Experimental Setup
@@ -247,5 +245,3 @@ The evaluation demonstrates:
 Both quantitative and qualitative analyses confirm that the model behaves consistently with dataset structure and object size distribution.
 
 ---
-
-# End of Report

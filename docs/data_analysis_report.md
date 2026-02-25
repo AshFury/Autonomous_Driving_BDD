@@ -1,6 +1,4 @@
 # Data Analysis Report  
-**BDD100K – Object Detection Task**
-
 ---
 
 # 1. Dataset Overview
@@ -155,14 +153,11 @@ The co-occurrence matrix reveals strong contextual pairings.
 
 - `car` ↔ `traffic sign`
 - `car` ↔ `traffic light`
-- `person` ↔ `rider`
-- `bus` ↔ `truck`
 
 ### Interpretation
 
 Urban driving scenes exhibit structured relationships:
 - Infrastructure appears alongside vehicles.
-- Rider and person classes overlap frequently.
 
 ### Modeling Implication
 
@@ -240,5 +235,3 @@ These characteristics significantly influence model selection, training behavior
 The data analysis phase provided essential insights that guided architectural decisions and performance interpretation.
 
 ---
-
-# End of Data Analysis Report

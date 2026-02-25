@@ -1,6 +1,4 @@
 # Model Explanation  
-**Applied Computer Vision Assignment – Object Detection on BDD100K**
-
 ---
 
 # 1. Model Choice
@@ -29,8 +27,7 @@ Faster R-CNN was selected for the following reasons:
   - Feature extraction
   - Region proposal
   - Classification and bounding box regression
-
-This makes it easier to explain model behavior and debug training issues.
+- This makes it easier to explain model behavior and debug training issues.
 
 ### 4. Multi-Class Detection Support
 - Naturally handles multiple detection classes.
@@ -252,5 +249,3 @@ on the validation subset.
 The architecture choice is well-aligned with the dataset characteristics and the assignment goals of building an end-to-end detection pipeline.
 
 ---
-
-# End of Model Explanation
